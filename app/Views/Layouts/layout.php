@@ -12,6 +12,11 @@
 
     <link rel="shortcut icon" type="image/icon" href="assets/images/kenma.svg">
 
+    <link rel="stylesheet" href="/assets/plugins/fontawesome/css/fontawesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/assets/plugins/node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <script src="/assets/plugins/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Custom Plugin -->
     <?= $this->renderSection('pluginCss'); ?>
 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
