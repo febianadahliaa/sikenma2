@@ -22,11 +22,9 @@
 
 <div class="row">
     <div class="col-lg-12 col-sm-12">
-        <!-- <a href="" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#addMitraModal"><i class="mdi mdi-account-plus mr-2"></i> Tambah Data Mitra Baru</a> -->
         <button type="button" class="btn btn-primary btn-sm mb-4 addMitraButton" id="">
             <i class="mdi mdi-account-plus mr-2"></i> Tambah Data Mitra Baru
         </button>
-        <!-- <button type="button" class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-animation="bounce" data-target=".bs-example-modal-lg">Large modal</button> -->
 
         <div class="card m-b-30">
             <div class="card-body table-responsive-sm">
@@ -44,15 +42,19 @@
                     <tbody>
                         <?php $i = 1; ?>
                         <?php foreach ($mitraList as $key) : ?>
-                            <tr id="<?= $key['mitra_id']; ?>">
+                            <tr id="<?= $key['mitra_id']; ?>" data-mitra-name="<?= $key['name']; ?>">
                                 <td class="text-center"><?= $i ?></td>
                                 <td><?= $key['name']; ?></td>
                                 <td><?= $key['district']; ?></td>
                                 <td><?= date_diff(date_create($key['date_of_birth']), date_create(date("Y-m-d")))->format('%y'); ?></td>
                                 <td><?= $key['education']; ?></td>
                                 <td class="action text-center">
-                                    <a href="" class="badge badge-pill badge-success" data-toggle="modal" data-target="#editMitraModal<?= $key['mitra_id']; ?>">Edit</a>
-                                    <a href="<?= base_url('manajemen/mitra_list/deleteMitra/' . $key['mitra_id']); ?>" class="badge badge-pill badge-danger deleteMitra" data-toggle="modal" data-target="#deleteMitraModal<?= $key['mitra_id']; ?>">Hapus</a>
+                                    <button type="button" class="btn btn-sm btn-info" onclick="editMitra(<?= $key['mitra_id']; ?>)" title="Edit Data">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger deleteMitraButton" title="Hapus Data">
+                                        <i class="fa fa-trash-o"></i>
+                                    </button>
                                 </td>
                             </tr>
                             <?php $i++; ?>
@@ -62,34 +64,9 @@
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <!--  Modal content for the above example -->
-    <div class="addMitraModal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="myLargeModalLabel">Large modal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <p>Cras mattis consectetur purus sit amet fermentum.
-                        Cras justo odio, dapibus ac facilisis in,
-                        egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.</p>
-                    <p>Praesent commodo cursus magna, vel scelerisque
-                        nisl consectetur et. Vivamus sagittis lacus vel
-                        augue laoreet rutrum faucibus dolor auctor.</p>
-                    <p>Aenean lacinia bibendum nulla sed consectetur.
-                        Praesent commodo cursus magna, vel scelerisque
-                        nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor
-                        fringilla.</p>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    <div class="viewMitraModal" style="display: none;"></div>
+    <!-- <div class="viewMitraModal" style="display: none;"></div> -->
 </div>
 <?= $this->endSection('content'); ?>
 
@@ -116,14 +93,16 @@
 </script>
 
 <script type="text/javascript">
+    // View add mitra modal
     $(document).ready(function() {
         $('.addMitraButton').click(function(event) {
             event.preventDefault();
             $.ajax({
-                url: "<?php site_url('Admin/mitra/addMitra'); ?>",
-                dataType: "json",
+                url: '/mitra-add',
+                dataType: 'json',
                 success: function(response) {
-                    $('.addMitraModal').html(response.data).show();
+                    $('.viewMitraModal').html(response.dataAddMitraForm).show();
+                    $('#addMitraModal').modal('show');
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
                     alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
@@ -131,5 +110,68 @@
             });
         });
     });
+
+    // View edit mitra modal
+    function editMitra(mid) {
+        $.ajax({
+            type: 'get',
+            url: `/mitra-edit/${mid}`,
+            // url: '/mitra-edit',
+            // data: {
+            //     mitra_id: mid
+            // },
+            dataType: 'json',
+            success: function(response) {
+                if (response.dataEditMitraForm) {
+                    $('.viewMitraModal').html(response.dataEditMitraForm).show();
+                    $('#editMitraModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    }
 </script>
+
+<script>
+    // Delete mitra
+    $('.deleteMitraButton').on('click', function(event) {
+        event.preventDefault();
+        var mid = $(this).parents('tr').attr('id');
+        var mname = $(this).parents('tr').attr('data-mitra-name');
+
+        Swal.fire({
+            title: 'Hapus',
+            text: `Yakin ingin menghapus data mitra ${mname} ?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak',
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: 'delete',
+                    url: `/mitra-delete/${mid}`,
+                    dataType: 'json',
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Terhapus!',
+                            text: response.successDelete,
+                        }).then(function() {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
 <?= $this->endSection('appJs'); ?>

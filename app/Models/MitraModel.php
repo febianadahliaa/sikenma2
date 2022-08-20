@@ -6,6 +6,11 @@ use CodeIgniter\Model;
 
 class MitraModel extends Model
 {
+    protected $table      = 'mitra';
+    protected $primaryKey = 'mitra_id';
+    protected $allowedFields = ['name', 'village_id', 'date_of_birth', 'gender', 'phone', 'marriage_status', 'education', 'job'];
+
+
     public function getMitra()
     {
         $db      = \Config\Database::connect();
@@ -17,7 +22,11 @@ class MitraModel extends Model
         return $query->getResultArray();
     }
 
-    public function getMitraById($nip)
+    public function getVillage()
     {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('village')->select('*')->orderBy('village', 'ASC');
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 }

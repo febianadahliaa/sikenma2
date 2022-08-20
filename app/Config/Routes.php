@@ -40,10 +40,17 @@ $routes->get('/auth/login', 'Auth::login');
 
 // $routes->group('', ['filter' => 'authFilter'], function ($routes) {
 $routes->get('/', 'Dashboard::index');
+
+// Admin
 $routes->get('/survey-list', 'Admin\Survey::index');
 $routes->get('/employee-list', 'Admin\Employee::index');
 $routes->get('/mitra-list', 'Admin\Mitra::index');
-$routes->get('/add-mitra', 'Admin\Mitra::addMitra');
+$routes->get('/mitra-add', 'Admin\Mitra::addMitra');
+$routes->post('/mitra-save', 'Admin\Mitra::saveMitra');
+$routes->get('/mitra-edit/(:num)', 'Admin\Mitra::editMitra/$1');
+$routes->post('/mitra-update', 'Admin\Mitra::updateMitra');
+$routes->delete('/mitra-delete/(:num)', 'Admin\Mitra::deleteMitra/$1');
+
 $routes->get('/track-record-summary', 'Mitra\TrSummary::index');
 $routes->get('/track-record-entry', 'Mitra\TrackRecord::index');
 // });
