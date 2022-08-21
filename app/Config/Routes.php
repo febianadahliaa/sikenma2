@@ -50,9 +50,16 @@ $routes->get('/mitra-edit/(:num)', 'Admin\Mitra::editMitra/$1');
 $routes->post('/mitra-update', 'Admin\Mitra::updateMitra');
 $routes->delete('/mitra-delete/(:num)', 'Admin\Mitra::deleteMitra/$1');
 // Admin-Users
-$routes->get('/survey-list', 'Admin\Survey::index');
+$routes->get('/users-list', 'Admin\Users::index');
+$routes->get('/users-add', 'Admin\Users::addUser');
+$routes->post('/users-save', 'Admin\Users::saveUser');
+$routes->get('/users-detail/(:num)', 'Admin\Users::userDetail/$1');
+$routes->get('/users-edit/(:num)', 'Admin\Users::editUser/$1');
+$routes->post('/users-update', 'Admin\Users::updateUser');
+$routes->post('/users-reset-password/(:num)', 'Admin\Users::resetPassword/$1');
+$routes->delete('/users-delete/(:num)', 'Admin\Users::deleteUser/$1');
 // Admin-Survey
-$routes->get('/employee-list', 'Admin\Employee::index');
+$routes->get('/survey-list', 'Admin\Survey::index');
 
 $routes->get('/track-record-summary', 'Mitra\TrSummary::index');
 $routes->get('/track-record-entry', 'Mitra\TrackRecord::index');

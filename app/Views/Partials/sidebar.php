@@ -30,7 +30,7 @@
                 <ul class="list-unstyled">
                     <li><a href="/mitra-list">Mitra</a></li>
                     <li><a href="/survey-list">Kegiatan</a></li>
-                    <li><a href="/employee-list">Pegawai</a></li>
+                    <li><a href="/users-list">Pegawai</a></li>
                 </ul>
             </li>
 
