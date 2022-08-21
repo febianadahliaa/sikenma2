@@ -49,6 +49,9 @@
                                 <td><?= date_diff(date_create($key['date_of_birth']), date_create(date("Y-m-d")))->format('%y'); ?></td>
                                 <td><?= $key['education']; ?></td>
                                 <td class="action text-center">
+                                    <button type="button" class="btn btn-sm btn-info mitraDetailButton" title="Detail Mitra">
+                                        <i class="fa fa-info-circle"></i>
+                                    </button>
                                     <button type="button" class="btn btn-sm btn-info" onclick="editMitra(<?= $key['mitra_id']; ?>)" title="Edit Data">
                                         <i class="fa fa-pencil"></i>
                                     </button>
@@ -66,7 +69,6 @@
     </div>
 
     <div class="viewMitraModal" style="display: none;"></div>
-    <!-- <div class="viewMitraModal" style="display: none;"></div> -->
 </div>
 <?= $this->endSection('content'); ?>
 
@@ -111,6 +113,26 @@
         });
     });
 
+    // View mitra detail modal
+    $('.mitraDetailButton').on('click', function(event) {
+        event.preventDefault();
+        var mid = $(this).parents('tr').attr('id');
+        $.ajax({
+            type: 'get',
+            url: `/mitra-detail/${mid}`,
+            dataType: 'json',
+            success: function(response) {
+                if (response.dataMitraDetailForm) {
+                    $('.viewMitraModal').html(response.dataMitraDetailForm).show();
+                    $('#mitraDetailModal').modal('show');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+            }
+        });
+    });
+
     // View edit mitra modal
     function editMitra(mid) {
         $.ajax({
@@ -132,9 +154,7 @@
             }
         });
     }
-</script>
 
-<script>
     // Delete mitra
     $('.deleteMitraButton').on('click', function(event) {
         event.preventDefault();
@@ -173,5 +193,4 @@
         });
     });
 </script>
-
 <?= $this->endSection('appJs'); ?>

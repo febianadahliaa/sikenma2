@@ -17,7 +17,7 @@ class Mitra extends BaseController
     {
         $data = [
             'title' => 'Daftar Mitra',
-            'mitraList' => $this->mitra->getMitra(),
+            'mitraList' => $this->mitra->getMitraDetail(),
         ];
         return view('admin/mitra', $data);
     }
@@ -123,6 +123,21 @@ class Mitra extends BaseController
         }
     }
 
+    public function mitraDetail($mitra_id)
+    {
+        if ($this->request->isAJAX()) {
+            $data = [
+                'mitraDetail' => $this->mitra->getMitraDetailById($mitra_id),
+            ];
+            $msg = [
+                'dataMitraDetailForm' => view('admin/mitra-detail-modal', $data)
+            ];
+            echo json_encode($msg);
+        } else {
+            exit('Maaf tidak dapat diproses.');
+        }
+    }
+
     public function editMitra($mitra_id)
     {
         if ($this->request->isAJAX()) {
@@ -215,8 +230,8 @@ class Mitra extends BaseController
                     ]
                 ];
             } else {
+                $mitra_id = $this->request->getVar('id');
                 $data = [
-                    'mitra_id' => $this->request->getVar('id'),
                     'name' => $this->request->getPost('name'),
                     'village_id' => $this->request->getPost('village_id'),
                     'date_of_birth' => $this->request->getPost('birthdate'),
@@ -226,7 +241,7 @@ class Mitra extends BaseController
                     'education' => $this->request->getPost('education'),
                     'job' => $this->request->getPost('job'),
                 ];
-                $this->mitra->update($data['mitra_id'], $data);
+                $this->mitra->update($mitra_id, $data);
                 $msg = [
                     'successUpdate' => 'Data berhasil diupdate.'
                 ];
