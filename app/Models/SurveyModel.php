@@ -6,18 +6,18 @@ use CodeIgniter\Model;
 
 class SurveyModel extends Model
 {
-    public function getUser($nip)
+    protected $table      = 'survey';
+    protected $primaryKey = 'survey_id';
+    protected $allowedFields = ['survey_id', 'survey_master_id', 'start_date', 'finish_date'];
+
+    public function getSurveyDetail()
     {
-        // $data = $this->authModel->findAll();
-        // dd($data);
-
-        // $query = $this->db->get_where('user', ['email' => $this->session->userdata('email')]);
-        // return $query->row_array();
-
-
-        return $this->where(['nip' => $nip])->first();
+        $db      = \Config\Database::connect();
+        $builder = $db->table('survey')
+            ->select('*')
+            ->join('survey_master', 'survey.survey_master_id = survey_master.survey_master_id')
+            ->orderBy('start_date', 'ASC');
+        $query = $builder->get();
+        return $query->getResultArray();
     }
-
-    // $query = $this->db->get_where('user', ['email' => $this->session->userdata('email')]);
-    //     return $query->row_array();
 }

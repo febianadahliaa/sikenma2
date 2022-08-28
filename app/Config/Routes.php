@@ -58,8 +58,18 @@ $routes->get('/users-edit/(:num)', 'Admin\Users::editUser/$1');
 $routes->post('/users-update', 'Admin\Users::updateUser');
 $routes->post('/users-reset-password/(:num)', 'Admin\Users::resetPassword/$1');
 $routes->delete('/users-delete/(:num)', 'Admin\Users::deleteUser/$1');
-// Admin-Survey
+// Admin-Survey-SurveyMaster
 $routes->get('/survey-list', 'Admin\Survey::index');
+$routes->get('/survey-add', 'Admin\Survey::addSurvey');
+$routes->post('/survey-save', 'Admin\Survey::saveSurvey');
+$routes->get('/survey-edit/(:num)', 'Admin\Survey::editSurvey/$1');
+$routes->post('/survey-update', 'Admin\Survey::updateSurvey');
+$routes->delete('/survey-delete/(:num)', 'Admin\Survey::deleteSurvey/$1');
+$routes->get('/survey-master-add', 'Admin\Survey::addSurveyMaster');
+$routes->post('/survey-master-save', 'Admin\Survey::saveSurveyMaster');
+$routes->get('/survey-master-edit/(:num)', 'Admin\Survey::editSurveyMaster/$1');
+$routes->post('/survey-master-update', 'Admin\Survey::updateSurveyMaster');
+$routes->delete('/survey-master-delete/(:num)', 'Admin\Survey::deleteSurveyMaster/$1');
 
 $routes->get('/track-record-summary', 'Mitra\TrSummary::index');
 $routes->get('/track-record-entry', 'Mitra\TrackRecord::index');
