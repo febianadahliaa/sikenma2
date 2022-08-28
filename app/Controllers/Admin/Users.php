@@ -21,10 +21,7 @@ class Users extends BaseController
             'district' => $this->users->getDistrict(),
             'role' => $this->users->getRole(),
             'position' => $this->users->getPosition(),
-            'x' => $this->users->getUserDetailById('340060098'),
         ];
-        // dd($data['x']);
-
         return view('admin/users', $data);
     }
 
@@ -162,17 +159,17 @@ class Users extends BaseController
     public function editUser($nip)
     {
         if ($this->request->isAJAX()) {
-            $users = $this->users->find($nip);
+            $user = $this->users->find($nip);
 
             $data = [
-                'nip' => $users['nip'],
-                'name' => $users['name'],
-                'email' => $users['email'],
-                'role_id' => $users['role_id'],
-                'gender' => $users['gender'],
-                'position_id' => $users['position_id'],
-                'district_id' => $users['district_id'],
-                'phone' => $users['phone'],
+                'nip' => $user['nip'],
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'role_id' => $user['role_id'],
+                'gender' => $user['gender'],
+                'position_id' => $user['position_id'],
+                'district_id' => $user['district_id'],
+                'phone' => $user['phone'],
                 'district' => $this->users->getDistrict(),
                 'role' => $this->users->getRole(),
                 'position' => $this->users->getPosition(),
@@ -262,7 +259,7 @@ class Users extends BaseController
                 ];
                 $this->users->update($nip, $data);
                 $msg = [
-                    'successSave' => 'Data berhasil disimpan.'
+                    'successUpdate' => 'Data berhasil diupdate.'
                 ];
             }
             echo json_encode($msg);

@@ -23,8 +23,7 @@
 <div class="row">
     <div class="col-lg-8 col-sm-8">
         <button type="button" class="btn btn-primary btn-sm mb-4 addUserButton">
-            <!-- <button type="button" class="btn btn-primary btn-sm mb-4" data-toggle="modal" data-target="#addUserModal"> -->
-            <i class="fa fa-user-plus mr-2"></i> Tambah Data Pegawai Baru
+            <i class="mdi mdi-account-plus mr-2"></i> Tambah Data Pegawai Baru
         </button>
 
         <div class="card m-b-30">

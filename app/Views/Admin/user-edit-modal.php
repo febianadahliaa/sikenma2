@@ -159,7 +159,7 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Berhasil',
-                            text: response.successSave,
+                            text: response.successUpdate,
                         }).then(function() {
                             location.reload();
                         });
