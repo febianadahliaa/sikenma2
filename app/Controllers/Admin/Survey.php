@@ -13,6 +13,7 @@ class Survey extends BaseController
     {
         $this->survey = new SurveyModel();
         $this->survey_master = new SurveyMasterModel();
+        $this->validator = Services::validation();
     }
 
     public function index()
@@ -43,9 +44,7 @@ class Survey extends BaseController
     public function saveSurvey()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'surveyMasterId' => [
                     'label' => 'Nama kegiatan',
                     'rules' => 'required',
@@ -119,9 +118,7 @@ class Survey extends BaseController
     public function updateSurvey()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'surveyMasterId' => [
                     'label' => 'Nama kegiatan',
                     'rules' => 'required',
@@ -203,9 +200,7 @@ class Survey extends BaseController
     public function saveSurveyMaster()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'surveyName' => [
                     'label' => 'Nama kegiatan',
                     'rules' => 'required',
@@ -330,9 +325,7 @@ class Survey extends BaseController
     public function updateSurveyMaster()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'surveyName' => [
                     'label' => 'Nama kegiatan',
                     'rules' => 'required',
