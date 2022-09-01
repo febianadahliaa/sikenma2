@@ -11,6 +11,7 @@ class Users extends BaseController
     public function __construct()
     {
         $this->users = new UsersModel();
+        $this->validator = Services::validation();
     }
 
     public function index()
@@ -45,19 +46,17 @@ class Users extends BaseController
     public function saveUser()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'nip' => [
                     'label' => 'NIP pegawai',
-                    'rules' => 'required|is_unique[user.nip]|min_length[9]|max_length[9]',
+                    'rules' => 'required|is_unique[users.nip]|min_length[9]|max_length[9]',
                     'errors' => [
                         'required' => '{field} harus diisi.',
                         'is_unique' => '{field} sudah ada dalam database. ',
                         'min_length' => '{field} harus terdiri dari 9 karakter. ',
                         'max_length' => '{field} harus terdiri dari 9 karakter. ',
                     ]
-                ],
+                ], //from name field in view file (input)
                 'name' => [
                     'label' => 'Nama pegawai',
                     'rules' => 'required',
@@ -186,9 +185,7 @@ class Users extends BaseController
     public function updateUser()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'name' => [
                     'label' => 'Nama pegawai',
                     'rules' => 'required',
