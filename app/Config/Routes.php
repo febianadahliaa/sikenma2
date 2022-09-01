@@ -71,8 +71,15 @@ $routes->get('/survey-master-edit/(:num)', 'Admin\Survey::editSurveyMaster/$1');
 $routes->post('/survey-master-update', 'Admin\Survey::updateSurveyMaster');
 $routes->delete('/survey-master-delete/(:num)', 'Admin\Survey::deleteSurveyMaster/$1');
 
+// Mitra-Record-Summary
 $routes->get('/track-record-summary', 'Mitra\TrSummary::index');
+// Mitra-Input-Record
 $routes->get('/track-record-entry', 'Mitra\TrackRecord::index');
+$routes->get('/mitra-tr-add', 'Mitra\TrackRecord::addMitraTr');
+$routes->post('/mitra-tr-save', 'Mitra\TrackRecord::saveMitraTr');
+$routes->get('/mitra-tr-edit/(:num)', 'Mitra\TrackRecord::editMitraTr/$1');
+$routes->post('/mitra-tr-update', 'Mitra\TrackRecord::updateMitraTr');
+$routes->delete('/mitra-tr-delete/(:num)', 'Mitra\TrackRecord::deleteMitraTr/$1');
 // });
 
 /*
