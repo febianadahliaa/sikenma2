@@ -11,6 +11,7 @@ class Mitra extends BaseController
     public function __construct()
     {
         $this->mitra = new MitraModel();
+        $this->validator = Services::validation();
     }
 
     public function index()
@@ -40,16 +41,14 @@ class Mitra extends BaseController
     public function saveMitra()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
-
-            $validation->setRules([
+            $validation = $this->validator->setRules([
                 'name' => [
                     'label' => 'Nama mitra',
                     'rules' => 'required',
                     'errors' => [
                         'required' => '{field} harus diisi.',
                     ]
-                ], //name dari input
+                ],
                 'village_id' => [
                     'label' => 'Desa asal mitra',
                     'rules' => 'required',
@@ -168,16 +167,16 @@ class Mitra extends BaseController
     public function updateMitra()
     {
         if ($this->request->isAJAX()) {
-            $validation = Services::validation();
+            // $validation = Services::validation();
 
-            $validation->setRules([
+            $validation  = $this->validator->setRules([
                 'name' => [
                     'label' => 'Nama mitra',
                     'rules' => 'required',
                     'errors' => [
                         'required' => '{field} harus diisi.',
                     ]
-                ],
+                ],  //from name field in view file (input)
                 'village_id' => [
                     'label' => 'Desa asal mitra',
                     'rules' => 'required',

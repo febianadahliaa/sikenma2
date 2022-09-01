@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Config\Database;
 
 class MitraModel extends Model
 {
@@ -11,10 +12,15 @@ class MitraModel extends Model
     protected $allowedFields = ['name', 'village_id', 'date_of_birth', 'gender', 'phone', 'marriage_status', 'education', 'job'];
 
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db = Database::connect();
+    }
+
     public function getMitraDetail()
     {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('mitra')
+        $builder = $this->db->table('mitra')
             ->select('*')
             ->join('village', 'mitra.village_id = village.village_id')
             ->join('district', 'village.district_id = district.district_id');
@@ -24,8 +30,7 @@ class MitraModel extends Model
 
     public function getMitraDetailById($mitra_id)
     {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('mitra')
+        $builder = $this->db->table('mitra')
             ->select('*')
             ->join('village', 'mitra.village_id = village.village_id')
             ->join('district', 'village.district_id = district.district_id')
@@ -36,8 +41,7 @@ class MitraModel extends Model
 
     public function getVillage()
     {
-        $db      = \Config\Database::connect();
-        $builder = $db->table('village')->select('*')->orderBy('village', 'ASC');
+        $builder = $this->db->table('village')->select('*')->orderBy('village', 'ASC');
         $query = $builder->get();
         return $query->getResultArray();
     }
